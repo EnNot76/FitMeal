@@ -945,7 +945,17 @@
         if (inputSearch) {
           inputSearch.addEventListener('input', e => {
             searchQuery = e.target.value;
+            const caretPos = e.target.selectionStart;
+
             renderMain();
+
+            const newInput = document.getElementById('input-search');
+            if (newInput) {
+              newInput.focus();
+              try {
+                newInput.setSelectionRange(caretPos, caretPos);
+              } catch (_) {}
+            }
           });
         }
 
