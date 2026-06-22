@@ -149,8 +149,6 @@
         macros: { p: 25, c: 28, f: 3, kcal: 239 },
         tags: ["high-protein", "low-fat", "pre-workout"]
       },
-
-      // 11–50 aggiuntive
       { id: 11,
         name: "Bowl di Tacchino e Zucchine Grigliate",
         ingredients: ["tacchino", "zucchine", "olio", "sale", "pepe", "limone"],
@@ -482,6 +480,9 @@
     let activeTab = 'pantry';
     let pantry = ['pollo', 'broccoli', 'albumi', 'riso', 'tonno'];
     let macroFilter = 'all';
+    let timingFilter = 'all';  // all | pre-workout | post-workout
+    let sortMode = 'match';    // match | name | protein | calories
+    let searchQuery = '';
     let weeklyPlan = {};
     let selectedRecipe = null;
 
@@ -494,15 +495,47 @@
       }[c]));
     }
 
+    function normalize(str) {
+      return String(str || '').toLowerCase();
+    }
+
     function filteredAndSuggestedRecipes() {
-      return RECIPES_DB.map(recipe => {
+      let list = RECIPES_DB.map(recipe => {
         const owned = recipe.ingredients.filter(ing => pantry.includes(ing));
         const missing = recipe.ingredients.filter(ing => !pantry.includes(ing));
         const match = Math.round((owned.length / recipe.ingredients.length) * 100);
         return { ...recipe, ownedIngredients: owned, missingIngredients: missing, matchPercentage: match };
-      })
-      .filter(r => macroFilter === 'all' ? true : r.tags.includes(macroFilter))
-      .sort((a, b) => b.matchPercentage - a.matchPercentage);
+      });
+
+      if (macroFilter !== 'all') {
+        list = list.filter(r => r.tags.includes(macroFilter));
+      }
+
+      if (timingFilter !== 'all') {
+        list = list.filter(r => r.tags.includes(timingFilter));
+      }
+
+      if (searchQuery.trim()) {
+        const q = normalize(searchQuery);
+        list = list.filter(r => {
+          const inName = normalize(r.name).includes(q);
+          const inIng = r.ingredients.some(ing => normalize(ing).includes(q));
+          return inName || inIng;
+        });
+      }
+
+      list = list.slice();
+      if (sortMode === 'name') {
+        list.sort((a, b) => a.name.localeCompare(b.name, 'it'));
+      } else if (sortMode === 'protein') {
+        list.sort((a, b) => b.macros.p - a.macros.p);
+      } else if (sortMode === 'calories') {
+        list.sort((a, b) => a.macros.kcal - b.macros.kcal);
+      } else {
+        list.sort((a, b) => b.matchPercentage - a.matchPercentage);
+      }
+
+      return list;
     }
 
     // ============================
@@ -605,7 +638,7 @@
       ];
       return filters.map(f => `
         <button data-filter="${f.value}"
-          class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap border ${
+          class="px-3 py-1.5 rounded-xl text-[11px] font-bold whitespace-nowrap border ${
             macroFilter === f.value
               ? 'bg-indigo-600 border-indigo-500 text-white shadow-sm shadow-indigo-100'
               : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700'
@@ -615,12 +648,72 @@
       `).join('');
     }
 
+    function buildTimingFilterButtonsHtml() {
+      const options = [
+        { label: 'Tutto', value: 'all' },
+        { label: 'Pre-Workout', value: 'pre-workout' },
+        { label: 'Post-Workout', value: 'post-workout' }
+      ];
+      return options.map(o => `
+        <button data-timing="${o.value}"
+          class="px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
+            timingFilter === o.value
+              ? 'bg-emerald-600 border-emerald-500 text-white'
+              : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700'
+          }">
+          ${escapeHtml(o.label)}
+        </button>
+      `).join('');
+    }
+
+    function buildSortSelectHtml() {
+      return `
+        <select id="select-sort"
+          class="border border-slate-200 bg-white text-[11px] rounded-xl px-2 py-1 text-slate-600">
+          <option value="match" ${sortMode === 'match' ? 'selected' : ''}>Match ingredienti</option>
+          <option value="name" ${sortMode === 'name' ? 'selected' : ''}>Nome A-Z</option>
+          <option value="protein" ${sortMode === 'protein' ? 'selected' : ''}>Proteine (↓)</option>
+          <option value="calories" ${sortMode === 'calories' ? 'selected' : ''}>Calorie (↑)</option>
+        </select>
+      `;
+    }
+
     function buildRecipesSection() {
       const recipes = filteredAndSuggestedRecipes();
       return `
         <section class="space-y-4">
-          <div class="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-            ${buildFilterButtonsHtml()}
+          <div class="bg-white border border-slate-200 rounded-2xl p-3 shadow-sm space-y-2">
+            <div class="flex gap-2 items-center">
+              <div class="flex-1 relative">
+                <input
+                  id="input-search"
+                  type="text"
+                  value="${escapeHtml(searchQuery)}"
+                  placeholder="Cerca per nome o ingrediente (es. tonno, avena, pre-workout)..."
+                  class="w-full pl-3 pr-8 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-700"
+                />
+                <span class="absolute right-2 top-1.5 text-slate-400 text-xs">🔍</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-[10px] text-slate-400 font-semibold">Ordina:</span>
+                ${buildSortSelectHtml()}
+              </div>
+            </div>
+            <div class="flex justify-between items-center text-[10px] text-slate-400">
+              <span>Risultati: ${recipes.length}</span>
+              <button id="btn-clear-filters" class="underline hover:text-slate-600">
+                Reset filtri
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <div class="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+              ${buildFilterButtonsHtml()}
+            </div>
+            <div class="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+              ${buildTimingFilterButtonsHtml()}
+            </div>
           </div>
 
           ${selectedRecipe ? buildSelectedRecipeCard(selectedRecipe) : ''}
@@ -646,6 +739,10 @@
                 </span>
               </div>
               <h4 class="font-extrabold text-slate-900 text-sm">${escapeHtml(recipe.name)}</h4>
+            </div>
+            <div class="flex flex-col items-end gap-1">
+              ${recipe.tags.includes('pre-workout') ? '<span class="text-[9px] bg-amber-50 text-amber-600 px-1.5 py-0.5 rounded-full border border-amber-100 font-semibold">PRE</span>' : ''}
+              ${recipe.tags.includes('post-workout') ? '<span class="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-full border border-emerald-100 font-semibold">POST</span>' : ''}
             </div>
           </div>
           <div class="grid grid-cols-4 gap-1 text-center bg-slate-50 p-2 rounded-xl text-[11px] font-semibold border border-slate-100">
@@ -807,10 +904,44 @@
 
       // Ricette
       if (activeTab === 'recipes') {
+        const inputSearch = document.getElementById('input-search');
+        if (inputSearch) {
+          inputSearch.addEventListener('input', e => {
+            searchQuery = e.target.value;
+            renderMain();
+          });
+        }
+
+        const selectSort = document.getElementById('select-sort');
+        if (selectSort) {
+          selectSort.addEventListener('change', e => {
+            sortMode = e.target.value;
+            renderMain();
+          });
+        }
+
+        const btnClearFilters = document.getElementById('btn-clear-filters');
+        if (btnClearFilters) {
+          btnClearFilters.addEventListener('click', () => {
+            macroFilter = 'all';
+            timingFilter = 'all';
+            sortMode = 'match';
+            searchQuery = '';
+            renderMain();
+          });
+        }
+
         document.querySelectorAll('[data-filter]').forEach(btn => {
           btn.addEventListener('click', () => {
             macroFilter = btn.getAttribute('data-filter');
-            render();
+            renderMain();
+          });
+        });
+
+        document.querySelectorAll('[data-timing]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            timingFilter = btn.getAttribute('data-timing');
+            renderMain();
           });
         });
 
@@ -838,7 +969,7 @@
           btn.addEventListener('click', () => {
             const id = parseInt(btn.getAttribute('data-show-recipe'), 10);
             selectedRecipe = RECIPES_DB.find(r => r.id === id) || null;
-            render();
+            renderMain();
           });
         });
 
@@ -846,7 +977,7 @@
         if (btnCloseSel) {
           btnCloseSel.addEventListener('click', () => {
             selectedRecipe = null;
-            render();
+            renderMain();
           });
         }
       }
