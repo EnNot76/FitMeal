@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitPrep SvuotaFrigo Sport</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #050816;
+      --card-bg: #0f172a;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.15);
+      --accent-strong: rgba(34, 197, 94, 0.35);
+      --accent-border: rgba(34, 197, 94, 0.5);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.95);
+      --shadow-glow: 0 0 20px rgba(34, 197, 94, 0.45);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --blur-strong: 22px;
+      --blur-soft: 14px;
+      --transition-fast: 0.18s ease-out;
+      --transition-med: 0.25s ease-out;
+      --transition-slow: 0.35s ease;
+      --glass: rgba(15, 23, 42, 0.92);
+      --glass-soft: rgba(15, 23, 42, 0.86);
+      --glass-border: rgba(148, 163, 184, 0.55);
+      --gradient-sport: linear-gradient(135deg, #22c55e, #0ea5e9);
+      --gradient-cta: linear-gradient(135deg, #22c55e, #22c55e);
+      --badge-bg: rgba(15, 118, 110, 0.48);
+      --badge-border: rgba(94, 234, 212, 0.55);
+      --badge-glow: 0 0 18px rgba(45, 212, 191, 0.7);
+      --danger: #f97373;
+      --danger-soft: rgba(248, 113, 113, 0.15);
+      --danger-border: rgba(248, 113, 113, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 1200px;
+      background: radial-gradient(circle at top left, #1f2937 0, #020617 55%);
+      border-radius: 30px;
+      padding: 22px 22px 26px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.98);
+    }
+
+    .app-shell::before {
+      content: "";
+      position: absolute;
+      inset: -200px;
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.3), transparent 55%),
+        radial-gradient(circle at top right, rgba(56, 189, 248, 0.32), transparent 55%),
+        radial-gradient(circle at bottom, rgba(52, 211, 153, 0.26), transparent 55%);
+      opacity: 0.9;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .app-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 960px) {
+      .app-content {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .header {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .title-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 30% 20%, #22c55e, #0ea5e9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 16px rgba(56, 189, 248, 0.5),
+        0 18px 35px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .title-icon span {
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .title-main {
+      flex: 1;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      margin-bottom: 3px;
+    }
+
+    .title-row h1 {
+      font-size: 22px;
+      letter-spacing: 0.01em;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-sport {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--badge-border);
+      background: linear-gradient(120deg, rgba(5, 150, 105, 0.7), rgba(8, 47, 73, 0.9));
+      box-shadow: var(--badge-glow);
+      font-size: 11px;
+      font-weight: 500;
+      color: #e0fdfa;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .badge-sport-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #a7f3d0, #22c55e);
+      box-shadow: 0 0 10px rgba(45, 212, 191, 0.85);
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .subtitle strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 960px) {
+      .main-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.95));
+      border-radius: 20px;
+      padding: 16px 16px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.95),
+        0 0 0 1px rgba(15, 23, 42, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.16), transparent 60%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 9px rgba(34, 197, 94, 0.9);
+    }
+
+    .field-group {
+      margin-bottom: 10px;
+    }
+
+    .field-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .field-hint {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .text-input {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.92);
+      padding: 9px 10px;
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .text-input:focus {
+      border-color: rgba(34, 197, 94, 0.95);
+      box-shadow:
+        0 0 0 1px rgba(34, 197, 94, 0.5),
+        0 0 20px rgba(34, 197, 94, 0.4);
+      background: rgba(15, 23, 42, 0.98);
+      transform: translateY(-0.5px);
+    }
+
+    .text-input::placeholder {
+      color: rgba(148, 163, 184, 0.7);
+    }
+
+    .tags-input {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.92);
+      min-height: 40px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      background: rgba(22, 163, 74, 0.16);
+      font-size: 11px;
+      color: #bbf7d0;
+    }
+
+    .tag-remove {
+      cursor: pointer;
+      font-size: 12px;
+      color: rgba(248, 250, 252, 0.8);
+    }
+
+    .tags-input-field {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 13px;
+      min-width: 80px;
+      flex: 1;
+    }
+
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 10px;
+    }
+
+    .macro-pill {
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.92);
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .macro-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .macro-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .macro-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .macro-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .macro-unit {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .cta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cta-hint {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.95);
+    }
+
+    .cta-button {
+      position: relative;
+      border-radius: 999px;
+      padding: 8px 18px;
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      background: var(--gradient-cta);
+      color: #e5fbee;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow:
+        0 0 18px rgba(34, 197, 94, 0.7),
+        0 18px 35px rgba(15, 23, 42, 0.95);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+    }
+
+    .cta-button span.icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #bbf7d0;
+      font-size: 11px;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 0 22px rgba(34, 197, 94, 0.8),
+        0 22px 40px rgba(15, 23, 42, 1);
+    }
+
+    .cta-button:active {
+      transform: translateY(0);
+      box-shadow:
+        0 0 12px rgba(34, 197, 94, 0.6),
+        0 10px 24px rgba(15, 23, 42, 1);
+    }
+
+    .cta-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .side-panel-card {
+      border-radius: 20px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.96));
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.95),
+        0 0 0 1px rgba(15, 23, 42, 0.78);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side-panel-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 65%);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .side-panel-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 10px;
+    }
+
+    .side-panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .side-panel-badge {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.95);
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .side-panel-body {
+      position: relative;
+      z-index: 1;
+    }
+
+    .side-section-title {
+      font-size: 12px;
+      color: rgba(209, 213, 219, 0.98);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .side-section-text {
+      font-size: 12px;
+      color: rgba(148, 163, 184, 1);
+      line-height: 1.5;
+    }
+
+    .side-section-text strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .macro-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 6px;
+    }
+
+    .macro-summary-label {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .macro-summary-value {
+      font-size: 12px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .recipe-section {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(55, 65, 81, 0.8);
+    }
+
+    .recipe-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .recipe-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .recipe-focus {
+      font-size: 11px;
+      color: rgba(34, 197, 94, 0.95);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .recipe-focus-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 1);
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.85);
+    }
+
+    .recipe-steps {
+      padding-left: 20px;
+      margin: 4px 0 6px;
+      font-size: 12px;
+      color: rgba(209, 213, 219, 0.98);
+    }
+
+    .missing-ingredients {
+      font-size: 11px;
+      color: rgba(248, 250, 252, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      border-radius: 10px;
+      padding: 6px 8px;
+      border: 1px dashed rgba(248, 250, 252, 0.18);
+      margin-top: 4px;
+    }
+
+    .missing-ingredients span {
+      color: rgba(248, 113, 113, 0.98);
+      font-weight: 500;
+    }
+
+    .error-box {
+      margin-top: 8px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: var(--danger-soft);
+      border: 1px solid var(--danger-border);
+      font-size: 12px;
+      color: #fecaca;
+    }
+
+    .status-line {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.95);
+      margin-top: 4px;
+    }
+
+    .status-line strong {
+      color: #e5e7eb;
+    }
+
+    .chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .chip-pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.95);
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.95);
+    }
+
+    /* Scroll fix for long textareas */
+    textarea.text-input {
+      resize: vertical;
+      min-height: 60px;
+      max-height: 120px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div class="app-content">
+      <div>
+        <div class="header">
+          <div class="title-icon">
+            <span>FP</span>
+          </div>
+          <div class="title-main">
+            <div class="title-row">
+              <h1>
+                FitPrep SvuotaFrigo
+                <span style="font-size: 12px; font-weight: 500; color: #a5b4fc;">
+                  Sport Edition
+                </span>
+              </h1>
+              <span class="badge-sport">
+                <span class="badge-sport-dot"></span>
+                Performance Meal Builder
+              </span>
+            </div>
+            <div class="subtitle">
+              Inserisci <strong>gli ingredienti reali</strong> che hai a casa e i tuoi
+              <strong>obiettivi sportivi</strong>. L'app genera un pasto completo che
+              supporta <strong>ipertrofia o definizione</strong> in base ai tuoi macro.
+            </div>
+          </div>
+        </div>
+
+        <div class="main-grid">
+          <!-- Left card: input -->
+          <div class="card">
+            <div class="card-content">
+              <div class="card-header-row">
+                <div class="card-title">
+                  🧊 Dispensa & Frigo
+                </div>
+                <div class="chip">
+                  <span class="chip-dot"></span>
+                  Ingredienti reali
+                </div>
+              </div>
+
+              <div class="field-group">
+                <div class="field-label-row">
+                  <div class="field-label">Ingredienti disponibili</div>
+                  <div class="field-hint">
+                    Esempio: petto di pollo, riso integrale, olio d'oliva, broccoli...
+                  </div>
+                </div>
+                <textarea
+                  id="ingredients"
+                  class="text-input"
+                  placeholder="Scrivi qui tutto quello che hai a disposizione (separa con virgole)"
+                ></textarea>
+              </div>
+
+              <div class="field-group">
+                <div class="field-label-row">
+                  <div class="field-label">Obiettivo e contesto</div>
+                  <div class="field-hint">
+                    Descrivi allenamento, orario pasto e obiettivo (massa, definizione, recomposition).
+                  </div>
+                </div>
+                <textarea
+                  id="goal"
+                  class="text-input"
+                  placeholder="Esempio: Cena post-allenamento gambe, obiettivo ipertrofia con leggero surplus calorico..."
+                ></textarea>
+              </div>
+
+              <div class="field-group">
+                <div class="field-label-row">
+                  <div class="field-label">Note aggiuntive (facoltative)</div>
+                  <div class="field-hint">
+                    Intolleranze, preferenze, timing carbo, ecc.
+                  </div>
+                </div>
+                <textarea
+                  id="notes"
+                  class="text-input"
+                  placeholder="Esempio: No lattosio, preferisco carbo complessi la sera, niente fritti..."
+                ></textarea>
+              </div>
+
+              <div class="field-group">
+                <div class="field-label-row">
+                  <div class="field-label">Mattoni nutrizionali target</div>
+                  <div class="field-hint">
+                    Inserisci i macro del tuo piano per questo pasto.
+                  </div>
+                </div>
+
+                <div class="macro-grid">
+                  <div class="macro-pill">
+                    <div class="macro-label-row">
+                      <span class="macro-label">Proteine</span>
+                      <span class="macro-value" id="macro-protein-label">~40g</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <input
+                        id="macro-protein"
+                        class="macro-input"
+                        type="number"
+                        min="0"
+                        placeholder="40"
+                      />
+                      <span class="macro-unit">g</span>
+                    </div>
+                  </div>
+                  <div class="macro-pill">
+                    <div class="macro-label-row">
+                      <span class="macro-label">Carbo</span>
+                      <span class="macro-value" id="macro-carb-label">~60g</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <input
+                        id="macro-carb"
+                        class="macro-input"
+                        type="number"
+                        min="0"
+                        placeholder="60"
+                      />
+                      <span class="macro-unit">g</span>
+                    </div>
+                  </div>
+                  <div class="macro-pill">
+                    <div class="macro-label-row">
+                      <span class="macro-label">Grassi</span>
+                      <span class="macro-value" id="macro-fat-label">~15g</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px;">
+                      <input
+                        id="macro-fat"
+                        class="macro-input"
+                        type="number"
+                        min="0"
+                        placeholder="15"
+                      />
+                      <span class="macro-unit">g</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cta-row">
+                <div class="cta-hint">
+                  Il sistema calcolerà come distribuire proteine, carbo e grassi
+                  usando solo quello che hai in dispensa.
+                </div>
+                <button id="generate-btn" class="cta-button">
+                  <span class="icon">⚙</span>
+                  Genera pasto sport
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: AI-like output, but local -->
+          <div class="side-panel">
+            <div class="side-panel-card">
+              <div class="side-panel-card-header">
+                <div class="side-panel-title">
+                  📊 Bilanciamento pasto
+                </div>
+                <div class="side-panel-badge" id="status-badge">
+                  In attesa dati
+                </div>
+              </div>
+              <div class="side-panel-body">
+                <div class="side-section-title">
+                  I tuoi mattoni nutrizionali (Dispensa)
+                </div>
+                <div class="side-section-text">
+                  L'app calcola una proposta di pasto usando solo gli ingredienti che hai
+                  inserito, cercando di rispettare i tuoi <strong>macro target</strong> e
+                  il contesto dell'allenamento.
+                </div>
+
+                <div class="macro-summary-row">
+                  <div class="macro-summary-label">
+                    Target macro pasto
+                  </div>
+                  <div class="macro-summary-value" id="macro-summary">
+                    Proteine ~40g · Carbo ~60g · Grassi ~15g
+                  </div>
+                </div>
+
+                <div class="chips-row">
+                  <div class="chip-pill">
+                    Obiettivo: <span id="chip-goal-label">non impostato</span>
+                  </div>
+                  <div class="chip-pill">
+                    Contesto: <span id="chip-context-label">—</span>
+                  </div>
+                </div>
+
+                <div id="error-box" class="error-box" style="display:none;"></div>
+              </div>
+            </div>
+
+            <div class="side-panel-card">
+              <div class="side-panel-card-header">
+                <div class="side-panel-title">
+                  🍽 Ricetta proposta
+                </div>
+                <div class="side-panel-badge">
+                  Versione locale (no IA)
+                </div>
+              </div>
+              <div class="side-panel-body">
+                <div class="side-section-title">
+                  Ricetta generata dalla dispensa
+                </div>
+                <div class="side-section-text">
+                  In base agli ingredienti e ai macro selezionati, viene proposta una
+                  combinazione di alimenti più vicina possibile alle tue esigenze sportive.
+                </div>
+
+                <div class="recipe-section" id="recipe-section" style="display:none;">
+                  <div class="recipe-title-row">
+                    <div class="recipe-name" id="recipe-name">
+                      —
+                    </div>
+                    <div class="recipe-focus">
+                      <span class="recipe-focus-dot"></span>
+                      <span id="recipe-focus">Bilanciato</span>
+                    </div>
+                  </div>
+                  <ol class="recipe-steps" id="recipe-steps"></ol>
+                  <div class="missing-ingredients" id="missing-ingredients" style="display:none;">
+                    Manca: <span id="missing-ingredients-list"></span>
+                  </div>
+                </div>
+
+                <div id="empty-recipe-placeholder" class="status-line">
+                  Inserisci ingredienti, macro e obiettivo, poi clicca
+                  <strong>“Genera pasto sport”</strong> per vedere una proposta.
+                </div>
+              </div>
+            </div>
+
+            <div class="side-panel-card">
+              <div class="side-panel-card-header">
+                <div class="side-panel-title">
+                  🧠 Coach nutrizionale
+                </div>
+                <div class="side-panel-badge">
+                  Suggerimenti manuali
+                </div>
+              </div>
+              <div class="side-panel-body">
+                <div class="side-section-title">
+                  Spunti pratici
+                </div>
+                <div class="side-section-text">
+                  Usa questa sezione come promemoria per associare i tuoi pasti al tipo
+                  di allenamento:
+                  <br />
+                  • <strong>Ipertrofia</strong>: più carbo complessi, proteine complete
+                  <br />
+                  • <strong>Definizione</strong>: controllo grassi, fibre alte
+                  <br />
+                  • <strong>Recomp</strong>: bilanciamento moderato con timing preciso
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Piccola "logica" locale per simulare la generazione del pasto
+    const ingredientsInput = document.getElementById("ingredients");
+    const goalInput = document.getElementById("goal");
+    const notesInput = document.getElementById("notes");
+    const proteinInput = document.getElementById("macro-protein");
+    const carbInput = document.getElementById("macro-carb");
+    const fatInput = document.getElementById("macro-fat");
+    const proteinLabel = document.getElementById("macro-protein-label");
+    const carbLabel = document.getElementById("macro-carb-label");
+    const fatLabel = document.getElementById("macro-fat-label");
+    const macroSummary = document.getElementById("macro-summary");
+    const chipGoalLabel = document.getElementById("chip-goal-label");
+    const chipContextLabel = document.getElementById("chip-context-label");
+    const statusBadge = document.getElementById("status-badge");
+    const errorBox = document.getElementById("error-box");
+    const recipeSection = document.getElementById("recipe-section");
+    const emptyRecipePlaceholder = document.getElementById("empty-recipe-placeholder");
+    const recipeName = document.getElementById("recipe-name");
+    const recipeFocus = document.getElementById("recipe-focus");
+    const recipeSteps = document.getElementById("recipe-steps");
+    const missingIngredientsBox = document.getElementById("missing-ingredients");
+    const missingIngredientsList = document.getElementById("missing-ingredients-list");
+    const generateBtn = document.getElementById("generate-btn");
+
+    function updateMacroLabels() {
+      const p = proteinInput.value || "40";
+      const c = carbInput.value || "60";
+      const f = fatInput.value || "15";
+
+      proteinLabel.textContent = "~" + p + "g";
+      carbLabel.textContent = "~" + c + "g";
+      fatLabel.textContent = "~" + f + "g";
+      macroSummary.textContent =
+        "Proteine ~" + p + "g · Carbo ~" + c + "g · Grassi ~" + f + "g";
+    }
+
+    proteinInput.addEventListener("input", updateMacroLabels);
+    carbInput.addEventListener("input", updateMacroLabels);
+    fatInput.addEventListener("input", updateMacroLabels);
+
+    function parseGoalContext(text) {
+      // Parsing super basic: look for some keywords
+      const lower = text.toLowerCase();
+      let goal = "non impostato";
+      let context = "—";
+
+      if (lower.includes("ipertrofia") || lower.includes("massa")) {
+        goal = "Ipertrofia / Massa";
+      } else if (lower.includes("definizione") || lower.includes("cut")) {
+        goal = "Definizione";
+      } else if (lower.includes("recomp")) {
+        goal = "Recomp";
+      }
+
+      if (lower.includes("post-allenamento")) {
+        context = "Post-allenamento";
+      } else if (lower.includes("pre-allenamento")) {
+        context = "Pre-allenamento";
+      } else if (lower.includes("colazione")) {
+        context = "Colazione";
+      } else if (lower.includes("pranzo")) {
+        context = "Pranzo";
+      } else if (lower.includes("cena")) {
+        context = "Cena";
+      }
+
+      return { goal, context };
+    }
+
+    function generateRecipe(ingredients, macros) {
+      // Input: array di ingredienti, {protein, carb, fat}
+      // Output: oggetto semplificato che "simula" la ricetta
+      const baseName = "FitBowl SvuotaFrigo";
+      let focus = "Bilanciato";
+      if (macros.protein > macros.carb && macros.protein > macros.fat) {
+        focus = "Proteine (ipertrofia)";
+      } else if (macros.carb > macros.protein) {
+        focus = "Carbo pre/post workout";
+      } else if (macros.fat < 15) {
+        focus = "Leggero per definizione";
+      }
+
+      const steps = [
+        "Seleziona una fonte proteica principale tra gli ingredienti elencati.",
+        "Abbina una fonte di carbo complessi (riso, pasta integrale, patate...) in linea con il target.",
+        "Aggiungi grassi buoni (olio d'oliva, frutta secca) fino a raggiungere il livello desiderato.",
+        "Completa con verdure fibrose per aumentare volume e micronutrienti.",
+        "Assaggia e regola sale, spezie e condimenti secondo le tue preferenze."
+      ];
+
+      // Semplice lista di "mancanti" se non troviamo almeno una fonte proteica / carbo
+      const lowerIng = ingredients.map(i => i.toLowerCase());
+      const hasProtein =
+        lowerIng.some(i => i.includes("pollo") || i.includes("tonno") || i.includes("uova") || i.includes("bresaola"));
+      const hasCarb =
+        lowerIng.some(i => i.includes("riso") || i.includes("pasta") || i.includes("patate") || i.includes("pane"));
+      const missing = [];
+      if (!hasProtein) missing.push("una fonte proteica principale (es. pollo, tonno, uova)");
+      if (!hasCarb) missing.push("una fonte di carbo complessi (es. riso, pasta, patate)");
+
+      return {
+        name: baseName,
+        focus,
+        steps,
+        missing
+      };
+    }
+
+    generateBtn.addEventListener("click", () => {
+      const ingredientsRaw = ingredientsInput.value.trim();
+      const goalRaw = goalInput.value.trim();
+      const notesRaw = notesInput.value.trim();
+
+      const proteins = Number(proteinInput.value || "40");
+      const carbs = Number(carbInput.value || "60");
+      const fats = Number(fatInput.value || "15");
+
+      errorBox.style.display = "none";
+      errorBox.textContent = "";
+
+      if (!ingredientsRaw || !goalRaw) {
+        errorBox.style.display = "block";
+        errorBox.textContent =
+          "Per generare un pasto hai bisogno almeno di: ingredienti disponibili e un obiettivo/contesto chiaro.";
+        statusBadge.textContent = "Dati incompleti";
+        statusBadge.style.color = "#fecaca";
+        return;
+      }
+
+      statusBadge.textContent = "Pasto calcolato";
+      statusBadge.style.color = "#bbf7d0";
+
+      const ingredients = ingredientsRaw
+        .split(",")
+        .map(x => x.trim())
+        .filter(Boolean);
+
+      const macros = { protein: proteins, carb: carbs, fat: fats };
+      const { goal, context } = parseGoalContext(goalRaw);
+
+      chipGoalLabel.textContent = goal;
+      chipContextLabel.textContent = context || "Generico";
+
+      // "Generazione" ricetta locale
+      const recipe = generateRecipe(ingredients, macros);
+
+      recipeName.textContent = recipe.name;
+      recipeFocus.textContent = recipe.focus;
+      recipeSteps.innerHTML = "";
+      recipe.steps.forEach(step => {
+        const li = document.createElement("li");
+        li.textContent = step;
+        recipeSteps.appendChild(li);
+      });
+
+      if (recipe.missing && recipe.missing.length > 0) {
+        missingIngredientsBox.style.display = "block";
+        missingIngredientsList.textContent = recipe.missing.join(", ");
+      } else {
+        missingIngredientsBox.style.display = "none";
+      }
+
+      recipeSection.style.display = "block";
+      emptyRecipePlaceholder.style.display = "none";
+    });
+
+    // Init macro summary
+    updateMacroLabels();
+  </script>
+</body>
+</html>
