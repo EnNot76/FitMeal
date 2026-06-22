@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <title>FitPrep SvuotaFrigo Sport</title>
+  <title>FitPrep SvuotaFrigo Sport – Versione locale</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
@@ -297,45 +297,6 @@
 
     .text-input::placeholder {
       color: rgba(148, 163, 184, 0.7);
-    }
-
-    .tags-input {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      padding: 6px;
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: rgba(15, 23, 42, 0.92);
-      min-height: 40px;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(34, 197, 94, 0.5);
-      background: rgba(22, 163, 74, 0.16);
-      font-size: 11px;
-      color: #bbf7d0;
-    }
-
-    .tag-remove {
-      cursor: pointer;
-      font-size: 12px;
-      color: rgba(248, 250, 252, 0.8);
-    }
-
-    .tags-input-field {
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--text-main);
-      font-size: 13px;
-      min-width: 80px;
-      flex: 1;
     }
 
     .macro-grid {
@@ -641,7 +602,6 @@
       color: rgba(148, 163, 184, 0.95);
     }
 
-    /* Scroll fix for long textareas */
     textarea.text-input {
       resize: vertical;
       min-height: 60px;
@@ -671,15 +631,16 @@
               </span>
             </div>
             <div class="subtitle">
-              Inserisci <strong>gli ingredienti reali</strong> che hai a casa e i tuoi
-              <strong>obiettivi sportivi</strong>. L'app genera un pasto completo che
-              supporta <strong>ipertrofia o definizione</strong> in base ai tuoi macro.
+              Il tuo <strong>coach nutrizionale da dispensa</strong>: parti dai
+              <strong>tuoi ingredienti reali</strong>, imposta macro e obiettivi sportivi
+              (ipertrofia, definizione, recomp) e genera un pasto completo in stile
+              <strong>svuota frigo</strong>.[file:1]
             </div>
           </div>
         </div>
 
         <div class="main-grid">
-          <!-- Left card: input -->
+          <!-- Sinistra: input -->
           <div class="card">
             <div class="card-content">
               <div class="card-header-row">
@@ -696,13 +657,13 @@
                 <div class="field-label-row">
                   <div class="field-label">Ingredienti disponibili</div>
                   <div class="field-hint">
-                    Esempio: petto di pollo, riso integrale, olio d'oliva, broccoli...
+                    Inserisci tutto ciò che hai in dispensa e frigo (separa con virgole).[file:1]
                   </div>
                 </div>
                 <textarea
                   id="ingredients"
                   class="text-input"
-                  placeholder="Scrivi qui tutto quello che hai a disposizione (separa con virgole)"
+                  placeholder="Esempio: petto di pollo, riso integrale, olio d'oliva, broccoli..."
                 ></textarea>
               </div>
 
@@ -710,7 +671,7 @@
                 <div class="field-label-row">
                   <div class="field-label">Obiettivo e contesto</div>
                   <div class="field-hint">
-                    Descrivi allenamento, orario pasto e obiettivo (massa, definizione, recomposition).
+                    Descrivi allenamento, orario pasto e obiettivo (massa, definizione, recomp).[file:1]
                   </div>
                 </div>
                 <textarea
@@ -736,9 +697,9 @@
 
               <div class="field-group">
                 <div class="field-label-row">
-                  <div class="field-label">Mattoni nutrizionali target</div>
+                  <div class="field-label">I tuoi mattoni nutrizionali (target)</div>
                   <div class="field-hint">
-                    Inserisci i macro del tuo piano per questo pasto.
+                    Inserisci i macro del tuo piano per questo pasto.[file:1]
                   </div>
                 </div>
 
@@ -761,7 +722,7 @@
                   </div>
                   <div class="macro-pill">
                     <div class="macro-label-row">
-                      <span class="macro-label">Carbo</span>
+                      <span class="macro-label">Carboidrati</span>
                       <span class="macro-value" id="macro-carb-label">~60g</span>
                     </div>
                     <div style="display:flex; align-items:center; gap:6px;">
@@ -796,8 +757,7 @@
 
               <div class="cta-row">
                 <div class="cta-hint">
-                  Il sistema calcolerà come distribuire proteine, carbo e grassi
-                  usando solo quello che hai in dispensa.
+                  Il sistema calcolerà un pasto usando solo gli ingredienti inseriti.[file:1]
                 </div>
                 <button id="generate-btn" class="cta-button">
                   <span class="icon">⚙</span>
@@ -807,12 +767,13 @@
             </div>
           </div>
 
-          <!-- Right side: AI-like output, but local -->
+          <!-- Destra: output stile TSX -->
           <div class="side-panel">
+            <!-- Box: bilanciamento / stato -->
             <div class="side-panel-card">
               <div class="side-panel-card-header">
                 <div class="side-panel-title">
-                  📊 Bilanciamento pasto
+                  📊 Bilanciamento ideale
                 </div>
                 <div class="side-panel-badge" id="status-badge">
                   In attesa dati
@@ -820,12 +781,12 @@
               </div>
               <div class="side-panel-body">
                 <div class="side-section-title">
-                  I tuoi mattoni nutrizionali (Dispensa)
+                  I tuoi mattoni nutrizionali (Dispensa)[file:1]
                 </div>
                 <div class="side-section-text">
-                  L'app calcola una proposta di pasto usando solo gli ingredienti che hai
-                  inserito, cercando di rispettare i tuoi <strong>macro target</strong> e
-                  il contesto dell'allenamento.
+                  L'app calcolerà i macronutrienti esatti per darti il massimo supporto
+                  durante l'<strong>ipertrofia</strong> o la <strong>definizione</strong>, usando
+                  solo gli ingredienti che hai selezionato.[file:1]
                 </div>
 
                 <div class="macro-summary-row">
@@ -850,6 +811,7 @@
               </div>
             </div>
 
+            <!-- Box: ricetta proposta (aiRecipe + recipe) -->
             <div class="side-panel-card">
               <div class="side-panel-card-header">
                 <div class="side-panel-title">
@@ -860,41 +822,47 @@
                 </div>
               </div>
               <div class="side-panel-body">
-                <div class="side-section-title">
-                  Ricetta generata dalla dispensa
-                </div>
-                <div class="side-section-text">
-                  In base agli ingredienti e ai macro selezionati, viene proposta una
-                  combinazione di alimenti più vicina possibile alle tue esigenze sportive.
+                <div id="empty-recipe-placeholder" class="status-line">
+                  Il sistema sta aspettando i tuoi ingredienti e obiettivi: compila i campi
+                  a sinistra e clicca <strong>“Genera pasto sport”</strong>.[file:1]
                 </div>
 
                 <div class="recipe-section" id="recipe-section" style="display:none;">
+                  <!-- aiRecipe.name -->
                   <div class="recipe-title-row">
                     <div class="recipe-name" id="recipe-name">
                       —
                     </div>
                     <div class="recipe-focus">
                       <span class="recipe-focus-dot"></span>
-                      <span id="recipe-focus">Bilanciato</span>
+                      <span id="recipe-focus">Focus Performance</span>
                     </div>
                   </div>
-                  <ol class="recipe-steps" id="recipe-steps"></ol>
-                  <div class="missing-ingredients" id="missing-ingredients" style="display:none;">
-                    Manca: <span id="missing-ingredients-list"></span>
-                  </div>
-                </div>
 
-                <div id="empty-recipe-placeholder" class="status-line">
-                  Inserisci ingredienti, macro e obiettivo, poi clicca
-                  <strong>“Genera pasto sport”</strong> per vedere una proposta.
+                  <!-- aiRecipe.fitnessBenefit -->
+                  <div class="status-line" id="recipe-benefit">
+                    Focus performance: proposta bilanciata su macro target.[file:1]
+                  </div>
+
+                  <!-- aiRecipe.instructions -->
+                  <ol class="recipe-steps" id="recipe-steps"></ol>
+
+                  <!-- recipe.name + missingIngredients -->
+                  <div class="status-line" id="recipe-plain-name" style="margin-top:4px;">
+                    Ricetta base: <strong id="recipe-basic-name">—</strong>
+                  </div>
+                  <div class="missing-ingredients" id="missing-ingredients" style="display:none;">
+                    Manca: <span id="missing-ingredients-list"></span>[file:1]
+                  </div>
                 </div>
               </div>
             </div>
 
+            <!-- Box: Coach nutrizionale -->
             <div class="side-panel-card">
               <div class="side-panel-card-header">
                 <div class="side-panel-title">
-                  🧠 Coach nutrizionale
+                  🧠 Coach Nutrizionale Fit
                 </div>
                 <div class="side-panel-badge">
                   Suggerimenti manuali
@@ -902,49 +870,51 @@
               </div>
               <div class="side-panel-body">
                 <div class="side-section-title">
-                  Spunti pratici
+                  Coach nutrizionale Fit (locale)[file:1]
                 </div>
                 <div class="side-section-text">
-                  Usa questa sezione come promemoria per associare i tuoi pasti al tipo
-                  di allenamento:
-                  <br />
-                  • <strong>Ipertrofia</strong>: più carbo complessi, proteine complete
-                  <br />
-                  • <strong>Definizione</strong>: controllo grassi, fibre alte
-                  <br />
-                  • <strong>Recomp</strong>: bilanciamento moderato con timing preciso
+                  Chiedi a te stesso (o al tuo coach) consigli su
+                  <strong>integrazione</strong>, <strong>timing dei pasti</strong> o
+                  <strong>strategie per l'ipertrofia</strong>, partendo dai pasti generati
+                  con FitPrep SvuotaFrigo Sport.[file:1]
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div> <!-- main-grid -->
       </div>
     </div>
   </div>
 
   <script>
-    // Piccola "logica" locale per simulare la generazione del pasto
+    // Riferimenti DOM principali
     const ingredientsInput = document.getElementById("ingredients");
     const goalInput = document.getElementById("goal");
     const notesInput = document.getElementById("notes");
     const proteinInput = document.getElementById("macro-protein");
     const carbInput = document.getElementById("macro-carb");
     const fatInput = document.getElementById("macro-fat");
+
     const proteinLabel = document.getElementById("macro-protein-label");
     const carbLabel = document.getElementById("macro-carb-label");
     const fatLabel = document.getElementById("macro-fat-label");
     const macroSummary = document.getElementById("macro-summary");
+
     const chipGoalLabel = document.getElementById("chip-goal-label");
     const chipContextLabel = document.getElementById("chip-context-label");
     const statusBadge = document.getElementById("status-badge");
     const errorBox = document.getElementById("error-box");
+
     const recipeSection = document.getElementById("recipe-section");
     const emptyRecipePlaceholder = document.getElementById("empty-recipe-placeholder");
     const recipeName = document.getElementById("recipe-name");
     const recipeFocus = document.getElementById("recipe-focus");
+    const recipeBenefit = document.getElementById("recipe-benefit");
     const recipeSteps = document.getElementById("recipe-steps");
+    const recipePlainName = document.getElementById("recipe-basic-name");
     const missingIngredientsBox = document.getElementById("missing-ingredients");
     const missingIngredientsList = document.getElementById("missing-ingredients-list");
+
     const generateBtn = document.getElementById("generate-btn");
 
     function updateMacroLabels() {
@@ -964,17 +934,23 @@
     fatInput.addEventListener("input", updateMacroLabels);
 
     function parseGoalContext(text) {
-      // Parsing super basic: look for some keywords
       const lower = text.toLowerCase();
       let goal = "non impostato";
       let context = "—";
+      let fitnessBenefit = "Proposta bilanciata sui macro target.";
 
       if (lower.includes("ipertrofia") || lower.includes("massa")) {
         goal = "Ipertrofia / Massa";
+        fitnessBenefit =
+          "Supporto all'ipertrofia: alto apporto proteico e carbo complessi per il recupero muscolare.[file:1]";
       } else if (lower.includes("definizione") || lower.includes("cut")) {
         goal = "Definizione";
+        fitnessBenefit =
+          "Supporto alla definizione: focus su proteine, controllo grassi e volume da verdure.[file:1]";
       } else if (lower.includes("recomp")) {
         goal = "Recomp";
+        fitnessBenefit =
+          "Recomp: bilanciamento tra surplus e deficit, con attenzione al timing dei carbo.[file:1]";
       }
 
       if (lower.includes("post-allenamento")) {
@@ -989,14 +965,14 @@
         context = "Cena";
       }
 
-      return { goal, context };
+      return { goal, context, fitnessBenefit };
     }
 
-    function generateRecipe(ingredients, macros) {
-      // Input: array di ingredienti, {protein, carb, fat}
-      // Output: oggetto semplificato che "simula" la ricetta
-      const baseName = "FitBowl SvuotaFrigo";
+    function generateRecipe(ingredients, macros, goalContext) {
+      // Simulazione di aiRecipe + recipe basato su ingredienti & macro
+      const baseName = "FitPrep Bowl SvuotaFrigo";
       let focus = "Bilanciato";
+
       if (macros.protein > macros.carb && macros.protein > macros.fat) {
         focus = "Proteine (ipertrofia)";
       } else if (macros.carb > macros.protein) {
@@ -1005,15 +981,15 @@
         focus = "Leggero per definizione";
       }
 
+      // Steps in stile instructions.map(...)
       const steps = [
-        "Seleziona una fonte proteica principale tra gli ingredienti elencati.",
-        "Abbina una fonte di carbo complessi (riso, pasta integrale, patate...) in linea con il target.",
+        "Scegli una fonte proteica principale tra gli ingredienti elencati (es. pollo, tonno, uova).",
+        "Abbina una fonte di carbo complessi in linea con il target macro (riso, pasta integrale, patate...).",
         "Aggiungi grassi buoni (olio d'oliva, frutta secca) fino a raggiungere il livello desiderato.",
-        "Completa con verdure fibrose per aumentare volume e micronutrienti.",
-        "Assaggia e regola sale, spezie e condimenti secondo le tue preferenze."
+        "Completa con verdure fibrose per aumentare volume, micronutrienti e sazietà.",
+        "Adatta il volume del piatto in base all'intensità dell'allenamento e al tuo piano calorico."
       ];
 
-      // Semplice lista di "mancanti" se non troviamo almeno una fonte proteica / carbo
       const lowerIng = ingredients.map(i => i.toLowerCase());
       const hasProtein =
         lowerIng.some(i => i.includes("pollo") || i.includes("tonno") || i.includes("uova") || i.includes("bresaola"));
@@ -1023,11 +999,19 @@
       if (!hasProtein) missing.push("una fonte proteica principale (es. pollo, tonno, uova)");
       if (!hasCarb) missing.push("una fonte di carbo complessi (es. riso, pasta, patate)");
 
+      // "recipe" plain name: potresti mappare a una tua lista reale
+      const recipeBase = {
+        name: "Ricetta base svuota frigo",
+        missingIngredients: missing
+      };
+
       return {
-        name: baseName,
-        focus,
-        steps,
-        missing
+        aiRecipe: {
+          name: baseName,
+          fitnessBenefit: goalContext.fitnessBenefit,
+          instructions: steps
+        },
+        recipe: recipeBase
       };
     }
 
@@ -1046,13 +1030,13 @@
       if (!ingredientsRaw || !goalRaw) {
         errorBox.style.display = "block";
         errorBox.textContent =
-          "Per generare un pasto hai bisogno almeno di: ingredienti disponibili e un obiettivo/contesto chiaro.";
+          "Per generare un pasto servono almeno: ingredienti disponibili e un obiettivo/contesto chiaro.[file:1]";
         statusBadge.textContent = "Dati incompleti";
         statusBadge.style.color = "#fecaca";
         return;
       }
 
-      statusBadge.textContent = "Pasto calcolato";
+      statusBadge.textContent = "Bilanciamento calcolato";
       statusBadge.style.color = "#bbf7d0";
 
       const ingredients = ingredientsRaw
@@ -1061,26 +1045,31 @@
         .filter(Boolean);
 
       const macros = { protein: proteins, carb: carbs, fat: fats };
-      const { goal, context } = parseGoalContext(goalRaw);
+      const goalContext = parseGoalContext(goalRaw);
 
-      chipGoalLabel.textContent = goal;
-      chipContextLabel.textContent = context || "Generico";
+      chipGoalLabel.textContent = goalContext.goal;
+      chipContextLabel.textContent = goalContext.context || "Generico";
 
-      // "Generazione" ricetta locale
-      const recipe = generateRecipe(ingredients, macros);
+      const { aiRecipe, recipe } = generateRecipe(ingredients, macros, goalContext);
 
-      recipeName.textContent = recipe.name;
-      recipeFocus.textContent = recipe.focus;
+      // aiRecipe.name
+      recipeName.textContent = aiRecipe.name;
+      // aiRecipe.fitnessBenefit
+      recipeBenefit.textContent = "Focus Performance: " + aiRecipe.fitnessBenefit;
+      // aiRecipe.instructions.map(...)
       recipeSteps.innerHTML = "";
-      recipe.steps.forEach(step => {
+      aiRecipe.instructions.forEach(step => {
         const li = document.createElement("li");
         li.textContent = step;
         recipeSteps.appendChild(li);
       });
 
-      if (recipe.missing && recipe.missing.length > 0) {
+      // recipe.name
+      recipePlainName.textContent = recipe.name;
+      // recipe.missingIngredients.join(', ')
+      if (recipe.missingIngredients && recipe.missingIngredients.length > 0) {
         missingIngredientsBox.style.display = "block";
-        missingIngredientsList.textContent = recipe.missing.join(", ");
+        missingIngredientsList.textContent = recipe.missingIngredients.join(", ");
       } else {
         missingIngredientsBox.style.display = "none";
       }
