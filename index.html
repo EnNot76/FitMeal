@@ -538,6 +538,28 @@
       return list;
     }
 
+    function getRecipeByName(name) {
+      return RECIPES_DB.find(r => r.name === name) || null;
+    }
+
+    function sumDayMacros(day) {
+      let total = { p: 0, c: 0, f: 0, kcal: 0 };
+      MEAL_TYPES.forEach(type => {
+        const key = `${day}-${type}`;
+        const recipeName = weeklyPlan[key];
+        if (recipeName) {
+          const rec = getRecipeByName(recipeName);
+          if (rec && rec.macros) {
+            total.p += rec.macros.p;
+            total.c += rec.macros.c;
+            total.f += rec.macros.f;
+            total.kcal += rec.macros.kcal;
+          }
+        }
+      });
+      return total;
+    }
+
     // ============================
     // RENDER
     // ============================
@@ -847,32 +869,47 @@
               Svuota Piano
             </button>
           </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-3 text-[11px] text-slate-500 space-y-1">
+            <p><span class="font-bold text-slate-700">Nota macro:</span> valori di proteine, carboidrati, grassi e kcal sono per <span class="font-bold">1 porzione standard</span> di ricetta.</p>
+            <p>Il riepilogo giornaliero somma le porzioni dei pasti selezionati (es. colazione + pranzo + cena).</p>
+          </div>
+
           <div class="space-y-3">
-            ${DAYS.map(day => `
-              <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-                <div class="bg-slate-50 px-4 py-2 border-b border-slate-200/80">
-                  <span class="text-xs font-black text-indigo-600 uppercase tracking-wide">
-                    ${escapeHtml(day)}
-                  </span>
+            ${DAYS.map(day => {
+              const totals = sumDayMacros(day);
+              return `
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                  <div class="flex justify-between items-center bg-slate-50 px-4 py-2 border-b border-slate-200/80">
+                    <span class="text-xs font-black text-indigo-600 uppercase tracking-wide">
+                      ${escapeHtml(day)}
+                    </span>
+                    <div class="flex gap-3 text-[10px] font-semibold text-slate-500">
+                      <span>P: <span class="text-indigo-600">${totals.p}g</span></span>
+                      <span>C: <span class="text-amber-600">${totals.c}g</span></span>
+                      <span>F: <span class="text-emerald-600">${totals.f}g</span></span>
+                      <span>KCAL: <span class="text-rose-600">${totals.kcal}</span></span>
+                    </div>
+                  </div>
+                  <div class="divide-y divide-slate-100 text-xs font-semibold">
+                    ${MEAL_TYPES.map(type => {
+                      const key = `${day}-${type}`;
+                      const meal = weeklyPlan[key];
+                      return `
+                        <div class="px-4 py-3 flex justify-between items-center">
+                          <span class="text-[10px] text-slate-400 font-bold uppercase w-20">
+                            ${escapeHtml(type)}
+                          </span>
+                          <span class="${meal ? 'text-slate-800' : 'text-slate-400 italic'}">
+                            ${meal ? escapeHtml(meal) : 'Riposo Nutrizionale'}
+                          </span>
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
                 </div>
-                <div class="divide-y divide-slate-100 text-xs font-semibold">
-                  ${MEAL_TYPES.map(type => {
-                    const key = `${day}-${type}`;
-                    const meal = weeklyPlan[key];
-                    return `
-                      <div class="px-4 py-3 flex justify-between items-center">
-                        <span class="text-[10px] text-slate-400 font-bold uppercase w-20">
-                          ${escapeHtml(type)}
-                        </span>
-                        <span class="${meal ? 'text-slate-800' : 'text-slate-400 italic'}">
-                          ${meal ? escapeHtml(meal) : 'Riposo Nutrizionale'}
-                        </span>
-                      </div>
-                    `;
-                  }).join('')}
-                </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
         </section>
       `;
