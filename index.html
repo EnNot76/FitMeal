@@ -2,1084 +2,481 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8" />
-  <title>FitPrep SvuotaFrigo Sport – Versione locale</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitPrep - FitMeal Planner (Solo locale)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root {
-      --bg: #050816;
-      --card-bg: #0f172a;
-      --accent: #22c55e;
-      --accent-soft: rgba(34, 197, 94, 0.15);
-      --accent-strong: rgba(34, 197, 94, 0.35);
-      --accent-border: rgba(34, 197, 94, 0.5);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --border-subtle: rgba(148, 163, 184, 0.35);
-      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.95);
-      --shadow-glow: 0 0 20px rgba(34, 197, 94, 0.45);
-      --radius-xl: 24px;
-      --radius-lg: 18px;
-      --radius-md: 12px;
-      --radius-pill: 999px;
-      --blur-strong: 22px;
-      --blur-soft: 14px;
-      --transition-fast: 0.18s ease-out;
-      --transition-med: 0.25s ease-out;
-      --transition-slow: 0.35s ease;
-      --glass: rgba(15, 23, 42, 0.92);
-      --glass-soft: rgba(15, 23, 42, 0.86);
-      --glass-border: rgba(148, 163, 184, 0.55);
-      --gradient-sport: linear-gradient(135deg, #22c55e, #0ea5e9);
-      --gradient-cta: linear-gradient(135deg, #22c55e, #22c55e);
-      --badge-bg: rgba(15, 118, 110, 0.48);
-      --badge-border: rgba(94, 234, 212, 0.55);
-      --badge-glow: 0 0 18px rgba(45, 212, 191, 0.7);
-      --danger: #f97373;
-      --danger-soft: rgba(248, 113, 113, 0.15);
-      --danger-border: rgba(248, 113, 113, 0.6);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-
-    .app-shell {
-      width: 100%;
-      max-width: 1200px;
-      background: radial-gradient(circle at top left, #1f2937 0, #020617 55%);
-      border-radius: 30px;
-      padding: 22px 22px 26px;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow: 0 24px 70px rgba(15, 23, 42, 0.98);
-    }
-
-    .app-shell::before {
-      content: "";
-      position: absolute;
-      inset: -200px;
-      background:
-        radial-gradient(circle at top left, rgba(34, 197, 94, 0.3), transparent 55%),
-        radial-gradient(circle at top right, rgba(56, 189, 248, 0.32), transparent 55%),
-        radial-gradient(circle at bottom, rgba(52, 211, 153, 0.26), transparent 55%);
-      opacity: 0.9;
-      mix-blend-mode: soft-light;
-      pointer-events: none;
-    }
-
-    .app-content {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 18px;
-      align-items: flex-start;
-    }
-
-    @media (max-width: 960px) {
-      .app-content {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .header {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-
-    .title-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 18px;
-      background: radial-gradient(circle at 30% 20%, #22c55e, #0ea5e9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow:
-        0 0 16px rgba(56, 189, 248, 0.5),
-        0 18px 35px rgba(15, 23, 42, 0.9);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .title-icon span {
-      font-size: 22px;
-      font-weight: 700;
-      color: white;
-    }
-
-    .title-main {
-      flex: 1;
-    }
-
-    .title-row {
-      display: flex;
-      align-items: baseline;
-      gap: 9px;
-      margin-bottom: 3px;
-    }
-
-    .title-row h1 {
-      font-size: 22px;
-      letter-spacing: 0.01em;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .badge-sport {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 9px;
-      border-radius: 999px;
-      border: 1px solid var(--badge-border);
-      background: linear-gradient(120deg, rgba(5, 150, 105, 0.7), rgba(8, 47, 73, 0.9));
-      box-shadow: var(--badge-glow);
-      font-size: 11px;
-      font-weight: 500;
-      color: #e0fdfa;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .badge-sport-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #a7f3d0, #22c55e);
-      box-shadow: 0 0 10px rgba(45, 212, 191, 0.85);
-    }
-
-    .subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .subtitle strong {
-      color: #e5e7eb;
-      font-weight: 600;
-    }
-
-    .main-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1.1fr);
-      gap: 16px;
-    }
-
-    @media (max-width: 960px) {
-      .main-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .card {
-      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.95));
-      border-radius: 20px;
-      padding: 16px 16px 14px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow:
-        0 18px 40px rgba(15, 23, 42, 0.95),
-        0 0 0 1px rgba(15, 23, 42, 0.7);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.16), transparent 60%);
-      opacity: 0.7;
-      pointer-events: none;
-    }
-
-    .card-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 9px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .chip-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 9px rgba(34, 197, 94, 0.9);
-    }
-
-    .field-group {
-      margin-bottom: 10px;
-    }
-
-    .field-label-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6px;
-    }
-
-    .field-label {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .field-hint {
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.9);
-    }
-
-    .text-input {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: rgba(15, 23, 42, 0.92);
-      padding: 9px 10px;
-      color: var(--text-main);
-      font-size: 13px;
-      outline: none;
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
-    }
-
-    .text-input:focus {
-      border-color: rgba(34, 197, 94, 0.95);
-      box-shadow:
-        0 0 0 1px rgba(34, 197, 94, 0.5),
-        0 0 20px rgba(34, 197, 94, 0.4);
-      background: rgba(15, 23, 42, 0.98);
-      transform: translateY(-0.5px);
-    }
-
-    .text-input::placeholder {
-      color: rgba(148, 163, 184, 0.7);
-    }
-
-    .macro-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      margin-top: 8px;
-      margin-bottom: 10px;
-    }
-
-    .macro-pill {
-      border-radius: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.55);
-      background: rgba(15, 23, 42, 0.92);
-      padding: 6px 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .macro-label-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .macro-label {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .macro-value {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .macro-input {
-      width: 100%;
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--text-main);
-      font-size: 13px;
-    }
-
-    .macro-unit {
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.9);
-    }
-
-    .cta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .cta-hint {
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.95);
-    }
-
-    .cta-button {
-      position: relative;
-      border-radius: 999px;
-      padding: 8px 18px;
-      border: 0;
-      outline: none;
-      cursor: pointer;
-      background: var(--gradient-cta);
-      color: #e5fbee;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow:
-        0 0 18px rgba(34, 197, 94, 0.7),
-        0 18px 35px rgba(15, 23, 42, 0.95);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
-    }
-
-    .cta-button span.icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 16px;
-      height: 16px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      color: #bbf7d0;
-      font-size: 11px;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-1px);
-      box-shadow:
-        0 0 22px rgba(34, 197, 94, 0.8),
-        0 22px 40px rgba(15, 23, 42, 1);
-    }
-
-    .cta-button:active {
-      transform: translateY(0);
-      box-shadow:
-        0 0 12px rgba(34, 197, 94, 0.6),
-        0 10px 24px rgba(15, 23, 42, 1);
-    }
-
-    .cta-button:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-      box-shadow: none;
-      transform: none;
-    }
-
-    .side-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .side-panel-card {
-      border-radius: 20px;
-      padding: 14px 14px 12px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.96));
-      box-shadow:
-        0 18px 40px rgba(15, 23, 42, 0.95),
-        0 0 0 1px rgba(15, 23, 42, 0.78);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .side-panel-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 65%);
-      opacity: 0.85;
-      pointer-events: none;
-    }
-
-    .side-panel-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      gap: 10px;
-    }
-
-    .side-panel-title {
-      font-size: 14px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .side-panel-badge {
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.95);
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.96);
-    }
-
-    .side-panel-body {
-      position: relative;
-      z-index: 1;
-    }
-
-    .side-section-title {
-      font-size: 12px;
-      color: rgba(209, 213, 219, 0.98);
-      margin-bottom: 4px;
-      font-weight: 500;
-    }
-
-    .side-section-text {
-      font-size: 12px;
-      color: rgba(148, 163, 184, 1);
-      line-height: 1.5;
-    }
-
-    .side-section-text strong {
-      color: #e5e7eb;
-      font-weight: 600;
-    }
-
-    .macro-summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-top: 6px;
-    }
-
-    .macro-summary-label {
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.9);
-    }
-
-    .macro-summary-value {
-      font-size: 12px;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .recipe-section {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed rgba(55, 65, 81, 0.8);
-    }
-
-    .recipe-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-      gap: 8px;
-    }
-
-    .recipe-name {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .recipe-focus {
-      font-size: 11px;
-      color: rgba(34, 197, 94, 0.95);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .recipe-focus-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: rgba(34, 197, 94, 1);
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.85);
-    }
-
-    .recipe-steps {
-      padding-left: 20px;
-      margin: 4px 0 6px;
-      font-size: 12px;
-      color: rgba(209, 213, 219, 0.98);
-    }
-
-    .missing-ingredients {
-      font-size: 11px;
-      color: rgba(248, 250, 252, 0.95);
-      background: rgba(15, 23, 42, 0.96);
-      border-radius: 10px;
-      padding: 6px 8px;
-      border: 1px dashed rgba(248, 250, 252, 0.18);
-      margin-top: 4px;
-    }
-
-    .missing-ingredients span {
-      color: rgba(248, 113, 113, 0.98);
-      font-weight: 500;
-    }
-
-    .error-box {
-      margin-top: 8px;
-      padding: 6px 8px;
-      border-radius: 10px;
-      background: var(--danger-soft);
-      border: 1px solid var(--danger-border);
-      font-size: 12px;
-      color: #fecaca;
-    }
-
-    .status-line {
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.95);
-      margin-top: 4px;
-    }
-
-    .status-line strong {
-      color: #e5e7eb;
-    }
-
-    .chips-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .chip-pill {
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.95);
-      font-size: 11px;
-      color: rgba(148, 163, 184, 0.95);
-    }
-
-    textarea.text-input {
-      resize: vertical;
-      min-height: 60px;
-      max-height: 120px;
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    .scrollbar-none::-webkit-scrollbar { display: none; }
+    .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    @keyframes scaleIn { from { transform: scale(.98); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .animate-scaleIn { animation: scaleIn .18s ease-out; }
+    .tab-active {
+      color: #4f46e5;
+      border-top-width: 2px;
+      border-color: #4f46e5;
+      background-color: rgba(238, 242, 255, 0.7);
     }
   </style>
 </head>
-<body>
-  <div class="app-shell">
-    <div class="app-content">
-      <div>
-        <div class="header">
-          <div class="title-icon">
-            <span>FP</span>
+<body class="bg-slate-50 text-slate-800">
+  <div class="min-h-screen flex flex-col pb-20">
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10 backdrop-blur-md bg-opacity-95 shadow-sm">
+      <div class="max-w-3xl mx-auto px-4 py-3.5 flex justify-between items-center">
+        <div class="flex items-center gap-2.5">
+          <div class="bg-indigo-600 p-2 rounded-xl text-white shadow-md shadow-indigo-200">
+            🏋️
           </div>
-          <div class="title-main">
-            <div class="title-row">
-              <h1>
-                FitPrep SvuotaFrigo
-                <span style="font-size: 12px; font-weight: 500; color: #a5b4fc;">
-                  Sport Edition
-                </span>
-              </h1>
-              <span class="badge-sport">
-                <span class="badge-sport-dot"></span>
-                Performance Meal Builder
-              </span>
-            </div>
-            <div class="subtitle">
-              Il tuo <strong>coach nutrizionale da dispensa</strong>: parti dai
-              <strong>tuoi ingredienti reali</strong>, imposta macro e obiettivi sportivi
-              (ipertrofia, definizione, recomp) e genera un pasto completo in stile
-              <strong>svuota frigo</strong>.[file:1]
-            </div>
+          <div>
+            <h1 class="text-lg font-black tracking-tight text-slate-900">FitPrep</h1>
+            <p class="text-[10px] text-indigo-600 font-bold uppercase tracking-widest">
+              FitMeal Planner (No IA)
+            </p>
           </div>
         </div>
-
-        <div class="main-grid">
-          <!-- Sinistra: input -->
-          <div class="card">
-            <div class="card-content">
-              <div class="card-header-row">
-                <div class="card-title">
-                  🧊 Dispensa & Frigo
-                </div>
-                <div class="chip">
-                  <span class="chip-dot"></span>
-                  Ingredienti reali
-                </div>
-              </div>
-
-              <div class="field-group">
-                <div class="field-label-row">
-                  <div class="field-label">Ingredienti disponibili</div>
-                  <div class="field-hint">
-                    Inserisci tutto ciò che hai in dispensa e frigo (separa con virgole).[file:1]
-                  </div>
-                </div>
-                <textarea
-                  id="ingredients"
-                  class="text-input"
-                  placeholder="Esempio: petto di pollo, riso integrale, olio d'oliva, broccoli..."
-                ></textarea>
-              </div>
-
-              <div class="field-group">
-                <div class="field-label-row">
-                  <div class="field-label">Obiettivo e contesto</div>
-                  <div class="field-hint">
-                    Descrivi allenamento, orario pasto e obiettivo (massa, definizione, recomp).[file:1]
-                  </div>
-                </div>
-                <textarea
-                  id="goal"
-                  class="text-input"
-                  placeholder="Esempio: Cena post-allenamento gambe, obiettivo ipertrofia con leggero surplus calorico..."
-                ></textarea>
-              </div>
-
-              <div class="field-group">
-                <div class="field-label-row">
-                  <div class="field-label">Note aggiuntive (facoltative)</div>
-                  <div class="field-hint">
-                    Intolleranze, preferenze, timing carbo, ecc.
-                  </div>
-                </div>
-                <textarea
-                  id="notes"
-                  class="text-input"
-                  placeholder="Esempio: No lattosio, preferisco carbo complessi la sera, niente fritti..."
-                ></textarea>
-              </div>
-
-              <div class="field-group">
-                <div class="field-label-row">
-                  <div class="field-label">I tuoi mattoni nutrizionali (target)</div>
-                  <div class="field-hint">
-                    Inserisci i macro del tuo piano per questo pasto.[file:1]
-                  </div>
-                </div>
-
-                <div class="macro-grid">
-                  <div class="macro-pill">
-                    <div class="macro-label-row">
-                      <span class="macro-label">Proteine</span>
-                      <span class="macro-value" id="macro-protein-label">~40g</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:6px;">
-                      <input
-                        id="macro-protein"
-                        class="macro-input"
-                        type="number"
-                        min="0"
-                        placeholder="40"
-                      />
-                      <span class="macro-unit">g</span>
-                    </div>
-                  </div>
-                  <div class="macro-pill">
-                    <div class="macro-label-row">
-                      <span class="macro-label">Carboidrati</span>
-                      <span class="macro-value" id="macro-carb-label">~60g</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:6px;">
-                      <input
-                        id="macro-carb"
-                        class="macro-input"
-                        type="number"
-                        min="0"
-                        placeholder="60"
-                      />
-                      <span class="macro-unit">g</span>
-                    </div>
-                  </div>
-                  <div class="macro-pill">
-                    <div class="macro-label-row">
-                      <span class="macro-label">Grassi</span>
-                      <span class="macro-value" id="macro-fat-label">~15g</span>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:6px;">
-                      <input
-                        id="macro-fat"
-                        class="macro-input"
-                        type="number"
-                        min="0"
-                        placeholder="15"
-                      />
-                      <span class="macro-unit">g</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="cta-row">
-                <div class="cta-hint">
-                  Il sistema calcolerà un pasto usando solo gli ingredienti inseriti.[file:1]
-                </div>
-                <button id="generate-btn" class="cta-button">
-                  <span class="icon">⚙</span>
-                  Genera pasto sport
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Destra: output stile TSX -->
-          <div class="side-panel">
-            <!-- Box: bilanciamento / stato -->
-            <div class="side-panel-card">
-              <div class="side-panel-card-header">
-                <div class="side-panel-title">
-                  📊 Bilanciamento ideale
-                </div>
-                <div class="side-panel-badge" id="status-badge">
-                  In attesa dati
-                </div>
-              </div>
-              <div class="side-panel-body">
-                <div class="side-section-title">
-                  I tuoi mattoni nutrizionali (Dispensa)[file:1]
-                </div>
-                <div class="side-section-text">
-                  L'app calcolerà i macronutrienti esatti per darti il massimo supporto
-                  durante l'<strong>ipertrofia</strong> o la <strong>definizione</strong>, usando
-                  solo gli ingredienti che hai selezionato.[file:1]
-                </div>
-
-                <div class="macro-summary-row">
-                  <div class="macro-summary-label">
-                    Target macro pasto
-                  </div>
-                  <div class="macro-summary-value" id="macro-summary">
-                    Proteine ~40g · Carbo ~60g · Grassi ~15g
-                  </div>
-                </div>
-
-                <div class="chips-row">
-                  <div class="chip-pill">
-                    Obiettivo: <span id="chip-goal-label">non impostato</span>
-                  </div>
-                  <div class="chip-pill">
-                    Contesto: <span id="chip-context-label">—</span>
-                  </div>
-                </div>
-
-                <div id="error-box" class="error-box" style="display:none;"></div>
-              </div>
-            </div>
-
-            <!-- Box: ricetta proposta (aiRecipe + recipe) -->
-            <div class="side-panel-card">
-              <div class="side-panel-card-header">
-                <div class="side-panel-title">
-                  🍽 Ricetta proposta
-                </div>
-                <div class="side-panel-badge">
-                  Versione locale (no IA)
-                </div>
-              </div>
-              <div class="side-panel-body">
-                <div id="empty-recipe-placeholder" class="status-line">
-                  Il sistema sta aspettando i tuoi ingredienti e obiettivi: compila i campi
-                  a sinistra e clicca <strong>“Genera pasto sport”</strong>.[file:1]
-                </div>
-
-                <div class="recipe-section" id="recipe-section" style="display:none;">
-                  <!-- aiRecipe.name -->
-                  <div class="recipe-title-row">
-                    <div class="recipe-name" id="recipe-name">
-                      —
-                    </div>
-                    <div class="recipe-focus">
-                      <span class="recipe-focus-dot"></span>
-                      <span id="recipe-focus">Focus Performance</span>
-                    </div>
-                  </div>
-
-                  <!-- aiRecipe.fitnessBenefit -->
-                  <div class="status-line" id="recipe-benefit">
-                    Focus performance: proposta bilanciata su macro target.[file:1]
-                  </div>
-
-                  <!-- aiRecipe.instructions -->
-                  <ol class="recipe-steps" id="recipe-steps"></ol>
-
-                  <!-- recipe.name + missingIngredients -->
-                  <div class="status-line" id="recipe-plain-name" style="margin-top:4px;">
-                    Ricetta base: <strong id="recipe-basic-name">—</strong>
-                  </div>
-                  <div class="missing-ingredients" id="missing-ingredients" style="display:none;">
-                    Manca: <span id="missing-ingredients-list"></span>[file:1]
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Box: Coach nutrizionale -->
-            <div class="side-panel-card">
-              <div class="side-panel-card-header">
-                <div class="side-panel-title">
-                  🧠 Coach Nutrizionale Fit
-                </div>
-                <div class="side-panel-badge">
-                  Suggerimenti manuali
-                </div>
-              </div>
-              <div class="side-panel-body">
-                <div class="side-section-title">
-                  Coach nutrizionale Fit (locale)[file:1]
-                </div>
-                <div class="side-section-text">
-                  Chiedi a te stesso (o al tuo coach) consigli su
-                  <strong>integrazione</strong>, <strong>timing dei pasti</strong> o
-                  <strong>strategie per l'ipertrofia</strong>, partendo dai pasti generati
-                  con FitPrep SvuotaFrigo Sport.[file:1]
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> <!-- main-grid -->
+        <div class="text-[10px] text-slate-500 max-w-[150px] text-right">
+          Versione offline con ricette locali e planner settimanale.
+        </div>
       </div>
-    </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-1 max-w-3xl mx-auto w-full p-4" id="main-content"></main>
+
+    <!-- Tab bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 pb-safe z-20 shadow-lg">
+      <div class="max-w-3xl mx-auto flex justify-between">
+        <button data-tab="pantry"
+          class="tab-btn flex flex-col items-center justify-center w-full py-3 text-slate-400">
+          <span class="text-[11px] font-bold tracking-wide">Dispensa</span>
+        </button>
+        <button data-tab="recipes"
+          class="tab-btn flex flex-col items-center justify-center w-full py-3 text-slate-400">
+          <span class="text-[11px] font-bold tracking-wide">Ricette Fit</span>
+        </button>
+        <button data-tab="planner"
+          class="tab-btn flex flex-col items-center justify-center w-full py-3 text-slate-400">
+          <span class="text-[11px] font-bold tracking-wide">Meal Prep</span>
+        </button>
+      </div>
+    </nav>
   </div>
 
   <script>
-    // Riferimenti DOM principali
-    const ingredientsInput = document.getElementById("ingredients");
-    const goalInput = document.getElementById("goal");
-    const notesInput = document.getElementById("notes");
-    const proteinInput = document.getElementById("macro-protein");
-    const carbInput = document.getElementById("macro-carb");
-    const fatInput = document.getElementById("macro-fat");
+    // ============================
+    // DATI
+    // ============================
+    const RECIPES_DB = [
+      { id: 1, name: "Omelette di Albumi e Spinaci", ingredients: ["albumi", "spinaci", "olio", "parmigiano"], type: "Colazione", difficulty: "Facile", macros: { p: 26, c: 3, f: 6, kcal: 170 }, tags: ["high-protein", "low-carb"] },
+      { id: 2, name: "Pollo Grigliato con Broccoli", ingredients: ["pollo", "broccoli", "olio", "limone"], type: "Pranzo", difficulty: "Facile", macros: { p: 42, c: 8, f: 5, kcal: 245 }, tags: ["high-protein", "low-carb", "low-fat"] },
+      { id: 3, name: "Salmone al Vapore con Asparagi", ingredients: ["salmone", "asparagi", "olio"], type: "Cena", difficulty: "Facile", macros: { p: 34, c: 4, f: 18, kcal: 314 }, tags: ["high-protein", "low-carb"] },
+      { id: 4, name: "Tartare di Manzo Light", ingredients: ["manzo", "limone", "senape", "olio", "capperi"], type: "Cena", difficulty: "Media", macros: { p: 28, c: 1, f: 9, kcal: 197 }, tags: ["high-protein", "low-carb"] },
+      { id: 5, name: "Fiocchi di Latte con Noci e Berries", ingredients: ["fiocchi di latte", "noci", "mirtilli", "miele"], type: "Spuntino", difficulty: "Facile", macros: { p: 18, c: 15, f: 8, kcal: 204 }, tags: ["high-protein"] },
+      { id: 6, name: "Riso Basmati con Tonno e Zucchine", ingredients: ["riso", "tonno", "zucchine", "olio"], type: "Pranzo", difficulty: "Facile", macros: { p: 30, c: 45, f: 6, kcal: 354 }, tags: ["high-protein", "low-fat"] },
+      { id: 7, name: "Shaker Proteico Avena e Banana", ingredients: ["latte", "proteine in polvere", "avena", "banana"], type: "Colazione", difficulty: "Facile", macros: { p: 38, c: 35, f: 4, kcal: 328 }, tags: ["high-protein", "low-fat"] },
+      { id: 8, name: "Frittata al Forno con Feta", ingredients: ["uova", "zucchine", "feta", "cipolla"], type: "Cena", difficulty: "Facile", macros: { p: 22, c: 6, f: 14, kcal: 238 }, tags: ["high-protein"] },
+      { id: 9, name: "Merluzzo in Umido al Pomodoro", ingredients: ["merluzzo", "pomodoro", "origano", "aglio", "olio"], type: "Cena", difficulty: "Facile", macros: { p: 24, c: 5, f: 4, kcal: 152 }, tags: ["high-protein", "low-carb", "low-fat"] },
+      { id: 10, name: "Pancake Proteici Fit", ingredients: ["albumi", "avena", "yogurt greco", "banana"], type: "Colazione", difficulty: "Media", macros: { p: 25, c: 28, f: 3, kcal: 239 }, tags: ["high-protein", "low-fat"] }
+    ];
 
-    const proteinLabel = document.getElementById("macro-protein-label");
-    const carbLabel = document.getElementById("macro-carb-label");
-    const fatLabel = document.getElementById("macro-fat-label");
-    const macroSummary = document.getElementById("macro-summary");
+    const DAYS = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
+    const MEAL_TYPES = ["Colazione", "Pranzo", "Cena"];
 
-    const chipGoalLabel = document.getElementById("chip-goal-label");
-    const chipContextLabel = document.getElementById("chip-context-label");
-    const statusBadge = document.getElementById("status-badge");
-    const errorBox = document.getElementById("error-box");
+    // ============================
+    // STATO
+    // ============================
+    let activeTab = 'pantry';
+    let pantry = ['pollo', 'broccoli', 'albumi', 'riso', 'tonno'];
+    let macroFilter = 'all';
+    let weeklyPlan = {};
+    let selectedRecipe = null; // per dettaglio locale
 
-    const recipeSection = document.getElementById("recipe-section");
-    const emptyRecipePlaceholder = document.getElementById("empty-recipe-placeholder");
-    const recipeName = document.getElementById("recipe-name");
-    const recipeFocus = document.getElementById("recipe-focus");
-    const recipeBenefit = document.getElementById("recipe-benefit");
-    const recipeSteps = document.getElementById("recipe-steps");
-    const recipePlainName = document.getElementById("recipe-basic-name");
-    const missingIngredientsBox = document.getElementById("missing-ingredients");
-    const missingIngredientsList = document.getElementById("missing-ingredients-list");
-
-    const generateBtn = document.getElementById("generate-btn");
-
-    function updateMacroLabels() {
-      const p = proteinInput.value || "40";
-      const c = carbInput.value || "60";
-      const f = fatInput.value || "15";
-
-      proteinLabel.textContent = "~" + p + "g";
-      carbLabel.textContent = "~" + c + "g";
-      fatLabel.textContent = "~" + f + "g";
-      macroSummary.textContent =
-        "Proteine ~" + p + "g · Carbo ~" + c + "g · Grassi ~" + f + "g";
+    // ============================
+    // UTILS
+    // ============================
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
     }
 
-    proteinInput.addEventListener("input", updateMacroLabels);
-    carbInput.addEventListener("input", updateMacroLabels);
-    fatInput.addEventListener("input", updateMacroLabels);
-
-    function parseGoalContext(text) {
-      const lower = text.toLowerCase();
-      let goal = "non impostato";
-      let context = "—";
-      let fitnessBenefit = "Proposta bilanciata sui macro target.";
-
-      if (lower.includes("ipertrofia") || lower.includes("massa")) {
-        goal = "Ipertrofia / Massa";
-        fitnessBenefit =
-          "Supporto all'ipertrofia: alto apporto proteico e carbo complessi per il recupero muscolare.[file:1]";
-      } else if (lower.includes("definizione") || lower.includes("cut")) {
-        goal = "Definizione";
-        fitnessBenefit =
-          "Supporto alla definizione: focus su proteine, controllo grassi e volume da verdure.[file:1]";
-      } else if (lower.includes("recomp")) {
-        goal = "Recomp";
-        fitnessBenefit =
-          "Recomp: bilanciamento tra surplus e deficit, con attenzione al timing dei carbo.[file:1]";
-      }
-
-      if (lower.includes("post-allenamento")) {
-        context = "Post-allenamento";
-      } else if (lower.includes("pre-allenamento")) {
-        context = "Pre-allenamento";
-      } else if (lower.includes("colazione")) {
-        context = "Colazione";
-      } else if (lower.includes("pranzo")) {
-        context = "Pranzo";
-      } else if (lower.includes("cena")) {
-        context = "Cena";
-      }
-
-      return { goal, context, fitnessBenefit };
+    function filteredAndSuggestedRecipes() {
+      return RECIPES_DB.map(recipe => {
+        const owned = recipe.ingredients.filter(ing => pantry.includes(ing));
+        const missing = recipe.ingredients.filter(ing => !pantry.includes(ing));
+        const match = Math.round((owned.length / recipe.ingredients.length) * 100);
+        return { ...recipe, ownedIngredients: owned, missingIngredients: missing, matchPercentage: match };
+      })
+      .filter(r => macroFilter === 'all' ? true : r.tags.includes(macroFilter))
+      .sort((a, b) => b.matchPercentage - a.matchPercentage);
     }
 
-    function generateRecipe(ingredients, macros, goalContext) {
-      // Simulazione di aiRecipe + recipe basato su ingredienti & macro
-      const baseName = "FitPrep Bowl SvuotaFrigo";
-      let focus = "Bilanciato";
-
-      if (macros.protein > macros.carb && macros.protein > macros.fat) {
-        focus = "Proteine (ipertrofia)";
-      } else if (macros.carb > macros.protein) {
-        focus = "Carbo pre/post workout";
-      } else if (macros.fat < 15) {
-        focus = "Leggero per definizione";
-      }
-
-      // Steps in stile instructions.map(...)
-      const steps = [
-        "Scegli una fonte proteica principale tra gli ingredienti elencati (es. pollo, tonno, uova).",
-        "Abbina una fonte di carbo complessi in linea con il target macro (riso, pasta integrale, patate...).",
-        "Aggiungi grassi buoni (olio d'oliva, frutta secca) fino a raggiungere il livello desiderato.",
-        "Completa con verdure fibrose per aumentare volume, micronutrienti e sazietà.",
-        "Adatta il volume del piatto in base all'intensità dell'allenamento e al tuo piano calorico."
-      ];
-
-      const lowerIng = ingredients.map(i => i.toLowerCase());
-      const hasProtein =
-        lowerIng.some(i => i.includes("pollo") || i.includes("tonno") || i.includes("uova") || i.includes("bresaola"));
-      const hasCarb =
-        lowerIng.some(i => i.includes("riso") || i.includes("pasta") || i.includes("patate") || i.includes("pane"));
-      const missing = [];
-      if (!hasProtein) missing.push("una fonte proteica principale (es. pollo, tonno, uova)");
-      if (!hasCarb) missing.push("una fonte di carbo complessi (es. riso, pasta, patate)");
-
-      // "recipe" plain name: potresti mappare a una tua lista reale
-      const recipeBase = {
-        name: "Ricetta base svuota frigo",
-        missingIngredients: missing
-      };
-
-      return {
-        aiRecipe: {
-          name: baseName,
-          fitnessBenefit: goalContext.fitnessBenefit,
-          instructions: steps
-        },
-        recipe: recipeBase
-      };
+    // ============================
+    // RENDER
+    // ============================
+    function render() {
+      renderMain();
+      renderTabs();
     }
 
-    generateBtn.addEventListener("click", () => {
-      const ingredientsRaw = ingredientsInput.value.trim();
-      const goalRaw = goalInput.value.trim();
-      const notesRaw = notesInput.value.trim();
-
-      const proteins = Number(proteinInput.value || "40");
-      const carbs = Number(carbInput.value || "60");
-      const fats = Number(fatInput.value || "15");
-
-      errorBox.style.display = "none";
-      errorBox.textContent = "";
-
-      if (!ingredientsRaw || !goalRaw) {
-        errorBox.style.display = "block";
-        errorBox.textContent =
-          "Per generare un pasto servono almeno: ingredienti disponibili e un obiettivo/contesto chiaro.[file:1]";
-        statusBadge.textContent = "Dati incompleti";
-        statusBadge.style.color = "#fecaca";
-        return;
-      }
-
-      statusBadge.textContent = "Bilanciamento calcolato";
-      statusBadge.style.color = "#bbf7d0";
-
-      const ingredients = ingredientsRaw
-        .split(",")
-        .map(x => x.trim())
-        .filter(Boolean);
-
-      const macros = { protein: proteins, carb: carbs, fat: fats };
-      const goalContext = parseGoalContext(goalRaw);
-
-      chipGoalLabel.textContent = goalContext.goal;
-      chipContextLabel.textContent = goalContext.context || "Generico";
-
-      const { aiRecipe, recipe } = generateRecipe(ingredients, macros, goalContext);
-
-      // aiRecipe.name
-      recipeName.textContent = aiRecipe.name;
-      // aiRecipe.fitnessBenefit
-      recipeBenefit.textContent = "Focus Performance: " + aiRecipe.fitnessBenefit;
-      // aiRecipe.instructions.map(...)
-      recipeSteps.innerHTML = "";
-      aiRecipe.instructions.forEach(step => {
-        const li = document.createElement("li");
-        li.textContent = step;
-        recipeSteps.appendChild(li);
+    function renderTabs() {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const tab = btn.getAttribute('data-tab');
+        btn.classList.remove('tab-active');
+        if (tab === activeTab) btn.classList.add('tab-active');
+        btn.onclick = () => { activeTab = tab; render(); };
       });
+    }
 
-      // recipe.name
-      recipePlainName.textContent = recipe.name;
-      // recipe.missingIngredients.join(', ')
-      if (recipe.missingIngredients && recipe.missingIngredients.length > 0) {
-        missingIngredientsBox.style.display = "block";
-        missingIngredientsList.textContent = recipe.missingIngredients.join(", ");
-      } else {
-        missingIngredientsBox.style.display = "none";
+    function renderMain() {
+      const main = document.getElementById('main-content');
+      if (!main) return;
+
+      let html = '';
+      if (activeTab === 'pantry') html += buildPantrySection();
+      else if (activeTab === 'recipes') html += buildRecipesSection();
+      else if (activeTab === 'planner') html += buildPlannerSection();
+
+      main.innerHTML = html;
+      attachSectionEvents();
+    }
+
+    // ============================
+    // DISPENSA
+    // ============================
+    function buildPantrySection() {
+      return `
+        <section class="space-y-4">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+            <h2 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3">
+              I tuoi mattoni nutrizionali (Dispensa)
+            </h2>
+            <div class="flex gap-2 mb-4">
+              <input id="input-pantry" type="text"
+                placeholder="Es. pollo, tonno, albumi, riso..."
+                class="flex-1 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm" />
+              <button id="btn-add-pantry"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded-xl font-bold text-sm">
+                Aggiungi
+              </button>
+            </div>
+            <div id="pantry-list" class="flex flex-wrap gap-2 text-xs"></div>
+          </div>
+
+          <div class="bg-gradient-to-br from-indigo-50 to-violet-50/50 p-5 rounded-3xl border border-indigo-100 flex items-center justify-between gap-4 shadow-sm">
+            <div class="space-y-1">
+              <div class="flex items-center gap-1.5 text-indigo-600 text-xs font-black uppercase tracking-wider">
+                🎯 <span>Ottimizzazione Obiettivi</span>
+              </div>
+              <p class="text-slate-600 text-xs leading-relaxed max-w-sm">
+                Aggiungi qui gli ingredienti che hai in frigo o dispensa: il planner ti suggerirà le ricette più adatte.
+              </p>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderPantryList() {
+      const el = document.getElementById('pantry-list');
+      if (!el) return;
+      el.innerHTML = pantry.map(item => `
+        <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl text-[11px] font-bold uppercase tracking-wide">
+          ${escapeHtml(item)}
+          <button data-remove="${escapeHtml(item)}" class="text-slate-400 hover:text-red-500 text-[10px]">✕</button>
+        </span>
+      `).join('');
+
+      document.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-remove');
+          const idx = pantry.indexOf(val);
+          if (idx >= 0) {
+            pantry.splice(idx, 1);
+            render();
+          }
+        });
+      });
+    }
+
+    // ============================
+    // RICETTE
+    // ============================
+    function buildFilterButtonsHtml() {
+      const filters = [
+        { label: 'Tutte', value: 'all' },
+        { label: '💪 High Protein', value: 'high-protein' },
+        { label: '🥑 Low Carb', value: 'low-carb' },
+        { label: '🏃‍♂️ Low Fat', value: 'low-fat' }
+      ];
+      return filters.map(f => `
+        <button data-filter="${f.value}"
+          class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap border ${
+            macroFilter === f.value
+              ? 'bg-indigo-600 border-indigo-500 text-white shadow-sm shadow-indigo-100'
+              : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-700'
+          }">
+          ${escapeHtml(f.label)}
+        </button>
+      `).join('');
+    }
+
+    function buildRecipesSection() {
+      const recipes = filteredAndSuggestedRecipes();
+      return `
+        <section class="space-y-4">
+          <div class="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            ${buildFilterButtonsHtml()}
+          </div>
+
+          ${selectedRecipe ? buildSelectedRecipeCard(selectedRecipe) : ''}
+
+          <div class="space-y-3">
+            ${recipes.map(buildRecipeCardHtml).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    function buildRecipeCardHtml(recipe) {
+      return `
+        <div class="bg-white border border-slate-200 p-4 rounded-3xl space-y-3 shadow-sm">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-[10px] bg-indigo-50 text-indigo-600 font-bold px-1.5 py-0.5 rounded border border-indigo-100">
+                  ${recipe.matchPercentage}% Ingredienti
+                </span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
+                  ${escapeHtml(recipe.type)}
+                </span>
+              </div>
+              <h4 class="font-extrabold text-slate-900 text-sm">${escapeHtml(recipe.name)}</h4>
+            </div>
+          </div>
+          <div class="grid grid-cols-4 gap-1 text-center bg-slate-50 p-2 rounded-xl text-[11px] font-semibold border border-slate-100">
+            <div><span class="text-slate-400 block text-[9px] font-bold">P</span> <span class="text-indigo-600">${recipe.macros.p}g</span></div>
+            <div><span class="text-slate-400 block text-[9px] font-bold">C</span> <span class="text-amber-600">${recipe.macros.c}g</span></div>
+            <div><span class="text-slate-400 block text-[9px] font-bold">F</span> <span class="text-emerald-600">${recipe.macros.f}g</span></div>
+            <div><span class="text-slate-400 block text-[9px] font-bold">KCAL</span> <span class="text-rose-600">${recipe.macros.kcal}</span></div>
+          </div>
+          <div class="text-[11px] text-slate-500 font-medium">
+            ${recipe.missingIngredients.length > 0
+              ? `<p><span class="text-rose-500 font-bold">Manca: </span>${escapeHtml(recipe.missingIngredients.join(', '))}</p>`
+              : '<p class="text-emerald-600 font-semibold">Hai tutti gli ingredienti.</p>'}
+          </div>
+          <div class="flex gap-2">
+            <button data-open-plan="${escapeHtml(recipe.name)}"
+              class="flex-1 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-[11px] font-bold py-1.5 rounded-xl text-slate-600">
+              Aggiungi al Piano
+            </button>
+            <button data-show-recipe="${recipe.id}"
+              class="px-3 bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold rounded-xl">
+              Dettagli
+            </button>
+          </div>
+          <div class="plan-dropdown hidden mt-2 bg-slate-50 border border-slate-200 p-2 rounded-xl grid grid-cols-2 gap-1">
+            ${DAYS.map(day => `
+              <div class="flex justify-between items-center p-1 bg-white rounded-lg border border-slate-100 shadow-sm">
+                <span class="text-[10px] text-slate-500 font-bold">${escapeHtml(day.substring(0, 3))}</span>
+                <div class="flex gap-1">
+                  <button data-add="${escapeHtml(day)}-Pranzo-${escapeHtml(recipe.name)}"
+                    class="p-1 bg-slate-50 rounded hover:bg-indigo-50 text-orange-500 border border-slate-100">☀️</button>
+                  <button data-add="${escapeHtml(day)}-Cena-${escapeHtml(recipe.name)}"
+                    class="p-1 bg-slate-50 rounded hover:bg-indigo-50 text-indigo-600 border border-slate-100">🌙</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function buildSelectedRecipeCard(recipe) {
+      return `
+        <div class="bg-gradient-to-b from-indigo-50/70 to-white border border-indigo-100 p-5 rounded-3xl shadow-md space-y-3 animate-scaleIn">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="bg-indigo-600 text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider">
+                  RICETTA SELEZIONATA
+                </span>
+                <span class="bg-slate-100 text-slate-700 text-[9px] font-bold px-2 py-0.5 rounded-md uppercase">
+                  ${escapeHtml(recipe.type)}
+                </span>
+              </div>
+              <h3 class="text-lg font-black text-slate-900">${escapeHtml(recipe.name)}</h3>
+              <p class="text-[11px] text-slate-500 mt-1">Difficoltà: ${escapeHtml(recipe.difficulty)}</p>
+            </div>
+            <button id="btn-close-selected" class="text-slate-400 hover:text-slate-600 text-sm">✕</button>
+          </div>
+          <div class="grid grid-cols-4 gap-2 text-center bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+            <div>
+              <span class="text-[8px] font-black tracking-wider text-slate-400 block uppercase">PRO</span>
+              <span class="text-xs font-black text-indigo-600">${recipe.macros.p} g</span>
+            </div>
+            <div>
+              <span class="text-[8px] font-black tracking-wider text-slate-400 block uppercase">CARB</span>
+              <span class="text-xs font-black text-amber-600">${recipe.macros.c} g</span>
+            </div>
+            <div>
+              <span class="text-[8px] font-black tracking-wider text-slate-400 block uppercase">GRASSI</span>
+              <span class="text-xs font-black text-emerald-600">${recipe.macros.f} g</span>
+            </div>
+            <div>
+              <span class="text-[8px] font-black tracking-wider text-slate-400 block uppercase">CALORIE</span>
+              <span class="text-xs font-black text-rose-600">${recipe.macros.kcal} kcal</span>
+            </div>
+          </div>
+          <div class="text-[11px]">
+            <div class="font-bold text-slate-600 mb-1">Ingredienti necessari:</div>
+            <ul class="list-disc ml-4 space-y-0.5">
+              ${recipe.ingredients.map(i => `<li>${escapeHtml(i)}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="text-[11px] text-slate-500">
+            <p><span class="font-bold text-slate-600">Suggerimento:</span> usa questa ricetta come base e adatta le porzioni in base al tuo fabbisogno calorico giornaliero.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================
+    // PLANNER
+    // ============================
+    function buildPlannerSection() {
+      return `
+        <section class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500">
+              Pianificazione Allenamento & Nutrizione
+            </h2>
+            <button id="btn-clear-plan"
+              class="text-[10px] bg-red-50 border border-red-200 text-red-600 font-bold px-2 py-1.5 rounded-md hover:bg-red-100">
+              Svuota Piano
+            </button>
+          </div>
+          <div class="space-y-3">
+            ${DAYS.map(day => `
+              <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                <div class="bg-slate-50 px-4 py-2 border-b border-slate-200/80">
+                  <span class="text-xs font-black text-indigo-600 uppercase tracking-wide">
+                    ${escapeHtml(day)}
+                  </span>
+                </div>
+                <div class="divide-y divide-slate-100 text-xs font-semibold">
+                  ${MEAL_TYPES.map(type => {
+                    const key = `${day}-${type}`;
+                    const meal = weeklyPlan[key];
+                    return `
+                      <div class="px-4 py-3 flex justify-between items-center">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase w-20">
+                          ${escapeHtml(type)}
+                        </span>
+                        <span class="${meal ? 'text-slate-800' : 'text-slate-400 italic'}">
+                          ${meal ? escapeHtml(meal) : 'Riposo Nutrizionale'}
+                        </span>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    // ============================
+    // EVENTI
+    // ============================
+    function attachSectionEvents() {
+      // Dispensa
+      if (activeTab === 'pantry') {
+        const inputPantry = document.getElementById('input-pantry');
+        const btnAddPantry = document.getElementById('btn-add-pantry');
+        if (inputPantry && btnAddPantry) {
+          btnAddPantry.addEventListener('click', () => {
+            const v = inputPantry.value.trim().toLowerCase();
+            if (v && !pantry.includes(v)) {
+              pantry.push(v);
+              inputPantry.value = '';
+              render();
+            }
+          });
+          inputPantry.addEventListener('keydown', e => {
+            if (e.key === 'Enter') btnAddPantry.click();
+          });
+        }
+        renderPantryList();
       }
 
-      recipeSection.style.display = "block";
-      emptyRecipePlaceholder.style.display = "none";
-    });
+      // Ricette
+      if (activeTab === 'recipes') {
+        document.querySelectorAll('[data-filter]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            macroFilter = btn.getAttribute('data-filter');
+            render();
+          });
+        });
 
-    // Init macro summary
-    updateMacroLabels();
+        document.querySelectorAll('[data-open-plan]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const panel = btn.nextElementSibling;
+            document.querySelectorAll('.plan-dropdown').forEach(d => d.classList.add('hidden'));
+            if (panel) panel.classList.toggle('hidden');
+          });
+        });
+
+        document.querySelectorAll('[data-add]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const parts = btn.getAttribute('data-add').split('-');
+            const day = parts[0];
+            const meal = parts[1];
+            const recipe = parts.slice(2).join('-');
+            weeklyPlan[`${day}-${meal}`] = recipe;
+            activeTab = 'planner';
+            render();
+          });
+        });
+
+        document.querySelectorAll('[data-show-recipe]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = parseInt(btn.getAttribute('data-show-recipe'), 10);
+            selectedRecipe = RECIPES_DB.find(r => r.id === id) || null;
+            render();
+          });
+        });
+
+        const btnCloseSel = document.getElementById('btn-close-selected');
+        if (btnCloseSel) {
+          btnCloseSel.addEventListener('click', () => {
+            selectedRecipe = null;
+            render();
+          });
+        }
+      }
+
+      // Planner
+      if (activeTab === 'planner') {
+        const btnClearPlan = document.getElementById('btn-clear-plan');
+        if (btnClearPlan) {
+          btnClearPlan.addEventListener('click', () => {
+            weeklyPlan = {};
+            render();
+          });
+        }
+      }
+    }
+
+    // ============================
+    // INIT
+    // ============================
+    document.addEventListener('DOMContentLoaded', () => {
+      render();
+    });
   </script>
 </body>
 </html>
